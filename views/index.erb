@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Matching Donations to Doctors Without Borders
+    </title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="bootstrap.min.css" type="text/css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <style type="text/css">
+      
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Matching Donations to 
+        <a href="https://donate.doctorswithoutborders.org" target="_new">
+          Doctors Without Borders!
+        </a>
+      </h1>
+      <p>
+        Hey there. It's <a href="https://twitter.com/zachfeldman" target="_new">my</a> birthday and I'm matching verified donations to Doctors Without Borders up to $5,000. I created a simple program to check an e-mail address on this very web server for new donations.
+      </p>
+      <h2>
+        Amount Raised:
+      </h2>
+      <h3>
+        <%= Money.new(Donation.all.map{|d| d.donation_amount_in_cents}.reduce(:+).to_i, "USD").format %>
+      </h3>
+      <h2>
+        With Match:
+      </h2>
+      <h3>
+        <%= Money.new(Donation.all.map{|d| d.donation_amount_in_cents}.reduce(:+).to_i*2, "USD").format %>
+      </h3>
+      <br>
+      <h2>How does this work?</h2>
+      <ol>
+        <li>
+           <a href="https://donate.doctorswithoutborders.org" target="_new">Make a donation to Doctors Without Borders</a>
+        </li>
+        <li>
+          <strong>Forward your confirmation e-mail to fwdmatch@gmail.com.</strong> 
+        </li>
+        <li>
+          Your donation should show up here a few minutes later.
+        </li>
+        <li>
+          I'll make my matching donation in 7 days or whenever this hits $5K, whichever comes first.
+        </li>
+      </ol>
+      <h3>
+        Last few donations:
+      </h3>
+      <ul>
+        <% Donation.last(10).each do |donation| %>
+          <li>
+            Submitted on <%=donation.created_at.strftime("%b %e, %Y - %l:%M%p") %> | <%= Money.new(donation.donation_amount_in_cents, "USD").format %>
+          </li>
+        <% end %>
+      </ul>
+      <br>
+      <br>
+      Questions? <a href="https://twitter.com/zachfeldman" target="_new">Twitter me</a>. Not affiliated with Doctors Without Borders at all, just trying to help!
+    </div>
+  </body>
+</html>
